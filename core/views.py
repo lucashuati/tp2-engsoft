@@ -93,7 +93,7 @@ def lista_cadernos(request):
 
 
 def excluir_cadernos(request):
-    cadernos = Caderno.objects.all()
+    cadernos = Caderno.objects.filter(materia__caderno=None)
 
     return render(request, 'excluircaderno.html', {'cadernos': cadernos})
 
