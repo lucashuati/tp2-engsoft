@@ -1,14 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from core.models import *
+from django.forms import ModelForm
 
 
 class Login(forms.Form):
     username = forms.CharField(label="Usuario")
     password = forms.CharField(widget=forms.PasswordInput(), label='Senha')
-
-
-
 
 
 class NewUser(forms.Form):
@@ -43,5 +41,17 @@ class NewUser(forms.Form):
     def clean(self):
         if self.cleaned_data['senha'] != self.cleaned_data['confirma_senha']:
             raise forms.ValidationError('Senha e Confirmaçao nao correspondem')
+        else:
+            return self.cleaned_data
+
+
+class CadernoForm(ModelForm):
+    class Meta:
+        model = Caderno
+        fields = ['nome', 'descricao']
+
+    def clean(self):
+        if Caderno.objects.filter(nome=self.cleaned_data['nome']).exists():
+            raise forms.ValidationError('Caderno ja existe')
         else:
             return self.cleaned_data

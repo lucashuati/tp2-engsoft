@@ -8,5 +8,8 @@ urlpatterns = [
     url(r'^index/$', index, name='index'),
     url(r'^logout/$', logout_view, name='logout'),
     url(r'^new/$', createUser, name='newuser'),
+    url(r'^new/caderno/$', criarCaderno.as_view(), name='criarcaderno'),
+    url(r'^cadernos/$', lista_cadernos, name='cadernos'),
+
 
 ]

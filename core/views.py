@@ -2,6 +2,8 @@ from django.http import request
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
+from django.views.generic import UpdateView, DetailView, CreateView
+from django.urls import reverse
 from .forms import *
 from .models import *
 
@@ -69,3 +71,20 @@ def createUser(request):
             return redirect('index')
 
     return render(request, 'create_user.html', {'form': form})
+
+
+class criarCaderno(CreateView):
+    odel = Caderno
+    form_class = CadernoForm
+    template_name = 'criar_caderno.html'
+    template_name_suffix = '_create_form'
+
+    def get_success_url(self):
+        messages.success(self.request, "Caderno Criado")
+        return reverse('index')
+
+
+def lista_cadernos(request):
+    cadernos = Caderno.objects.all()
+
+    return render(request, 'listacadernos.html', {'cadernos': cadernos})

@@ -25,13 +25,7 @@
     <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
         <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1"
            href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-        <a href="#" class="w3-bar-item w3-button w3-theme-l1">Integrador</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Clients</a>
-        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Partners</a>
+        <a href="{% url 'index' %}" class="w3-bar-item w3-button w3-theme-l1">Integrador</a>
     </div>
 </div>
 
@@ -43,12 +37,10 @@
         <i class="fa fa-remove"></i>
     </a>
     {% if user.is_authenticated %}
-        <h5 class="w3-bar-item"><b>Bem Vindo, {{ user.first_name }}</b></h5>
-        <h5 class="w3-bar-item">Logado como {{ papel }}</h5>
+        <h5 class="w3-bar-item"><b>Bem Vindo, {{ papel }} {{ user.first_name }}</b></h5>
+        <a class="w3-bar-item w3-button w3-hover-black" href="{% url 'cadernos' %}">Cadernos</a>
+        <a class="w3-bar-item w3-button w3-hover-black" href="#">Lista de Cadernos</a>
         <a class="w3-bar-item w3-button w3-hover-black" href="{% url 'logout' %}">Logout</a>
-        <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-        <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-        <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
     {% else %}
         <h5 class="w3-bar-item">Bem Vindo, realize seu login para utilizar o sistema</h5>
         <p></p>
