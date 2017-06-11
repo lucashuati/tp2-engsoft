@@ -55,3 +55,12 @@ class CadernoForm(ModelForm):
             raise forms.ValidationError('Caderno ja existe')
         else:
             return self.cleaned_data
+
+class CadernoFormEdit(ModelForm):
+    class Meta:
+        model = Caderno
+        fields = ['nome', 'descricao']
+
+    def clean(self):
+        return self.cleaned_data
+

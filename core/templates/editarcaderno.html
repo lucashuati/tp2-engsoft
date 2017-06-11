@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block headerextra %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script>
+        $(document).ready(function () {
+            $("select").select2({
+                'placeholder': 'Escolha o caderno para editar'
+            })
+                .on("select2:select", function (e) {
+                    var selected_element = $(e.currentTarget);
+                    var select_val = selected_element.val();
+                    $('#ex').attr('href','/editar/caderno/' + select_val);
+                });
+
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h2>Preencha os campos que deseja alterar, caso um campo esteja em branco, determina que sera mantido</h2>
+    <form action="" method="post">{% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Update" />
+    </form>
+{% endblock %}

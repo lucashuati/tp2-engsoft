@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^excluir/caderno/$', excluir_cadernos, name='excluircadernos'),
     url(r'^editar/caderno/$', editar_cadernos, name='editarcadernos'),
     url(r'^excluir/caderno/(?P<pk>\d+)$', deletar_caderno.as_view(), name='deletarcaderno'),
-
+    url(r'^editar/caderno/(?P<pk>\d+)$', editar_caderno.as_view(), name = 'editarcaderno'),
 ]

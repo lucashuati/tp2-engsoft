@@ -44,6 +44,9 @@ class Caderno(models.Model):
     descricao = models.TextField()
     lista = models.ForeignKey(ListaCaderno, on_delete=models.CASCADE, blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse('mostrarcaderno', args=[str(self.id)])
+
 
 class Materia(models.Model):
     titulo = models.CharField(max_length=30)

@@ -111,3 +111,13 @@ class deletar_caderno(DeleteView):
     def get_success_url(self):
         messages.success(self.request, "Caderno Deletado")
         return reverse('index')
+
+class editar_caderno(UpdateView):
+    model = Caderno
+    form_class = CadernoFormEdit
+    template_name = 'editarcaderno.html'
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        messages.success(self.request, "O Caderno foi editado")
+        return reverse('index')
