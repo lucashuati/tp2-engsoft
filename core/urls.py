@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^new/$', createUser, name='newuser'),
     url(r'^new/caderno/$', criarCaderno.as_view(), name='criarcaderno'),
     url(r'^cadernos/$', lista_cadernos, name='cadernos'),
-
+    url(r'^excluir/caderno/$', excluir_cadernos, name='excluircadernos'),
+    url(r'^excluir/caderno/(?P<pk>\d+)$', deletar_caderno.as_view(), name='deletarcaderno'),
 
 ]

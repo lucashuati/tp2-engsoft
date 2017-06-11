@@ -8,7 +8,7 @@
             <div style="float: right">
                 <a href="{% url 'criarcaderno' %}">Criar</a>
                 <a href="">Editar</a>
-                <a href="">Deletar</a>
+                <a href="{% url 'excluircadernos' %}">Deletar</a>
             </div>
 
             {% for caderno in cadernos %}
