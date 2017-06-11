@@ -91,6 +91,10 @@ def lista_cadernos(request):
 
     return render(request, 'listacadernos.html', {'cadernos': cadernos})
 
+def editar_cadernos(request):
+    cadernos = Caderno.objects.all()
+
+    return render(request, 'editarcadernos.html', {'cadernos': cadernos})
 
 def excluir_cadernos(request):
     cadernos = Caderno.objects.filter(materia__caderno=None)
