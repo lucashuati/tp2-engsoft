@@ -13,7 +13,7 @@
 
             {% for caderno in cadernos %}
                 <ul>
-                    <li><a href="">{{ caderno.nome }}</a></li>
+                    <li><a href="{% url  'mostrarcaderno' caderno.pk %}">{{ caderno.nome }}</a></li>
                 </ul>
             {% endfor %}
         </div>

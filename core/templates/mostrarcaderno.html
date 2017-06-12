@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Preencha os campos que deseja alterar, caso um campo esteja em branco, determina que sera mantido</h2>
-    <form action="" method="post">{% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit" value="Update" />
-    </form>
+    <h2 style="padding-left: 30px; padding-top: 30px" >Nome do Caderno</h2>
+    <p style="padding-left: 30px">{{ object.nome }}</p>
+
+    <h2 style="padding-left: 30px; padding-top: 30px">Descriçao</h2>
+    <p style="padding-left: 30px">{{ object.descricao }}</p>
 {% endblock %}
