@@ -9,7 +9,6 @@ from django.urls import reverse
 from .forms import *
 from .models import *
 
-
 def logout_view(request):
     logout(request)
 
@@ -121,3 +120,12 @@ class editar_caderno(UpdateView):
     def get_success_url(self):
         messages.success(self.request, "O Caderno foi editado")
         return reverse('index')
+
+class mostrar_caderno(DetailView):
+    model = Caderno
+    template_name = 'mostrarcaderno.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
