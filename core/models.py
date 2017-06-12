@@ -42,7 +42,7 @@ class ListaCaderno(models.Model):
 
 class Caderno(models.Model):
     nome = models.CharField(max_length=15)
-    descricao = models.TextField()
+    descricao = models.TextField(max_length=30)
     lista = models.ForeignKey(ListaCaderno, on_delete=models.CASCADE, blank=True, null=True)
 
     def get_absolute_url(self):

@@ -11,7 +11,7 @@ class TestCenario5(TestCase):
         self.client = Client()
         self.criar_url = "/new/caderno/"
 
-    def testeSucess(self):
+    def testeCriaNormal(self):
         try :
             response = self.client.post(self.criar_url,{"nome" : "teste123" , "descricao" : "fsdfhsfhs"})
             query = Caderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs")
@@ -19,45 +19,80 @@ class TestCenario5(TestCase):
             return False
         self.assertEquals(query.nome,"teste123")
 
-    def testeSucess1(self):
+
+    def testeNomeNulo_DescriNull(self):
         try :
-            response = self.client.post(self.criar_url,{"nome" : "" , "descricao" : "fsdfhsfhs"})
-            query = Caderno.objects.get(nome = "", descricao = "fsdfhsfhs")
+            response = self.client.post(self.criar_url,{"nome" : "" , "descricao" : ""})
+            query = Caderno.objects.get(nome = "", descricao = "")
         except :
             return True
         return False
 
-    def testeSucess2(self):
+    def testeNomeNulo_DescriNorml(self):
         try :
-            response = self.client.post(self.criar_url,{"nome" : "teste123" , "descricao" : "fsdfhsfhssdvbsdvsdsdvsdsdvvsfddddddddddddddddddddddddddddddddddddd"})
+            response = self.client.post(self.criar_url,{"nome" : "" , "descricao" : "fdfdfdfd"})
+            query = Caderno.objects.get(nome = "", descricao = "fdfdfdfd")
+        except :
+            return True
+        return False
+
+    def testeNomeNulo_DescriExcede(self):
+        try :
+            response = self.client.post(self.criar_url,{"nome" : "" , "descricao" : "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd"})
             query = Caderno.objects.get(nome = "", descricao = "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd")
         except :
             return True
         return False
-        
-    def testeSucess3(self):
+
+    def testeNomeNorml_DescriNULL(self):
         try :
-            response = self.client.post(self.criar_url,{"nome" : "123" , "descricao" : ""})
-            query = Caderno.objects.get(nome = "123", descricao = "")
+            response = self.client.post(self.criar_url,{"nome" : "teste123" , "descricao" : ""})
+            query = Caderno.objects.get(nome = "teste123", descricao = "")
+        except :
+            return True
+        return False
+
+    def testeNomeNorml_DescriNorml(self):
+        try :
+            response = self.client.post(self.criar_url,{"nome" : "teste123" , "descricao" : "123456"})
+            query = Caderno.objects.get(nome = "teste123", descricao = "123456")
+        except :
+            return True
+        return False
+
+    def testeNomeNorml_DescriExcede(self):
+        try :
+            response = self.client.post(self.criar_url,{"nome" : "teste123" , "descricao" : "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd"})
+            query = Caderno.objects.get(nome = "teste123", descricao = "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd")
+        except :
+            return True
+        return False
+
+
+    def testeNomeExcede_DescriNull(self):
+        try :
+            response = self.client.post(self.criar_url,{"nome" : "12345678901234561" , "descricao" : ""})
+            query = Caderno.objects.get(nome = "12345678901234561", descricao = "")
         except : 
             return True
         return False
 
-    def testeSucess4(self):
+    def testeNomeExcede_DescriNorml(self):
         try :
-            response = self.client.post(self.criar_url,{"nome" : "12345678901234561" , "descricao" : "fdfdfdfd"})
-            query = Caderno.objects.get(nome = "12345678901234561", descricao = "fdfdfdfd")
+            response = self.client.post(self.criar_url,{"nome" : "12345678901234561" , "descricao" : "123456"})
+            query = Caderno.objects.get(nome = "12345678901234561", descricao = "123456")
         except : 
             return True
         return False
 
-    def testeSucess5(self):
+    def testeNomeExcede_DescriExcede(self):
         try :
-            response = self.client.post(self.criar_url,{"nome" : "12345678901234561" , "descricao" : "123456789012345678901234567890"})
-            query = Caderno.objects.get(nome = "123", descricao = "123456789012345678901234567890")
+            response = self.client.post(self.criar_url,{"nome" : "12345678901234561789797979" , "descricao" : "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd"})
+            query = Caderno.objects.get(nome = "12345678901234561789797979", descricao = "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd")
         except : 
             return True
         return False
+
 
 class TestCenario6(TestCase):
     def setUp(self):
@@ -65,7 +100,7 @@ class TestCenario6(TestCase):
         self.client = Client()
         self.editar_url = "editar/caderno/" + str(self.caderno.pk)
 
-    def testeSucess(self):
+    def testeCriaNormal(self):
         try :
             response = self.client.post(self.editar_url,{"nome" : "teste123" , "descricao" : "fsdfhsfhs"})
             query = Caderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs")
@@ -73,53 +108,79 @@ class TestCenario6(TestCase):
             return False
         self.assertEquals(query.nome,"teste123")
 
-    def testeSucess1(self):
+    def testeNomeNulo_DescriNull(self):
         try :
-            response = self.client.post(self.editar_url,{"nome" : "" , "descricao" : "fsdfhsfhs"})
-            query = Caderno.objects.get(nome = "", descricao = "fsdfhsfhs")
+            response = self.client.post(self.editar_url,{"nome" : "" , "descricao" : ""})
+            query = Caderno.objects.get(nome = "", descricao = "")
         except :
             return False
         return False
 
-    def testeSucess2(self):
+    def testeNomeNulo_DescriNorml(self):
         try :
-            response = self.client.post(self.editar_url,{"nome" : "1234567890123456" , "descricao" : "fsdfhsfhs"})
-            query = Caderno.objects.get(nome = "1234567890123456", descricao = "fsdfhsfhs")
+            response = self.client.post(self.editar_url,{"nome" : "" , "descricao" : "123456"})
+            query = Caderno.objects.get(nome = "", descricao = "123456")
         except :
             return False
         return False
 
-    def testeSucess3(self):
+    def testeNomeNulo_DescriExcede(self):
         try :
-            response = self.client.post(self.editar_url,{"nome" : "1234567890123456111111" , "descricao" : "fsdfhsfhs"})
-            query = Caderno.objects.get(nome = "123456789012345611111", descricao = "fsdfhsfhs")
+            response = self.client.post(self.editar_url,{"nome" : "" , "descricao" : "12345678901234567890123456789999999"})
+            query = Caderno.objects.get(nome = "", descricao = "12345678901234567890123456789999999")
         except :
             return False
         return False
 
-    def testeSucess4(self):
+    def testeNomeNorml_DescriNull(seUlllf):
         try :
-            response = self.client.post(self.editar_url,{"nome" : "12345678" , "descricao" : ""})
-            query = Caderno.objects.get(nome = "12345678", descricao = "")
+            response = self.client.post(self.editar_url,{"nome" : "123456" , "descricao" : ""})
+            query = Caderno.objects.get(nome = "123456", descricao = "")
         except :
             return False
         return False
 
-    def testeSucess5(self):
+    def testeNomeNorml_DescriNorml(self):
         try :
-            response = self.client.post(self.editar_url,{"nome" : "12345678" , "descricao" : "fsdfhsfhssdvbsdvsdsdvsdsdvvsfddddddddddddddddddddddddddddddddddddd"})
-            query = Caderno.objects.get(nome = "12345678", descricao = "")
+            response = self.client.post(self.editar_url,{"nome" : "123456" , "descricao" : "123456"})
+            query = Caderno.objects.get(nome = "123456", descricao = "123456")
         except :
             return False
         return False
 
-    def testeSucess6(self):
+    def testeNomeNorml_DescriExcede(self):
         try :
-            response = self.client.post(self.editar_url,{"nome" : "12345678" , "descricao" : "123456789012345678901234567890"})
-            query = Caderno.objects.get(nome = "12345678", descricao = "")
+            response = self.client.post(self.editar_url,{"nome" : "123456" , "descricao" : "12345678901234567890123456789999999"})
+            query = Caderno.objects.get(nome = "123456", descricao = "12345678901234567890123456789999999")
         except :
             return False
         return False
+
+    def testeNomeExcede_DescriNull(self):
+        try :
+            response = self.client.post(self.editar_url,{"nome" : "12345678907897897979797979" , "descricao" : ""})
+            query = Caderno.objects.get(nome = "12345678907897897979797979", descricao = "")
+        except :
+            return False
+        return False
+
+    def testeNomeExcede_DescriNorml(self):
+        try :
+            response = self.client.post(self.editar_url,{"nome" : "12345678907897897979797979" , "descricao" : "123456"})
+            query = Caderno.objects.get(nome = "12345678907897897979797979", descricao = "123456")
+        except :
+            return False
+        return False
+
+    def testeNomeExcede_DescriExcede(self):
+        try :
+            response = self.client.post(self.editar_url,{"nome" : "12345678907897897979797979" , "descricao" : "12345678901234567890123456789999999"})
+            query = Caderno.objects.get(nome = "12345678907897897979797979", descricao = "12345678901234567890123456789999999")
+        except :
+            return False
+        return False
+
+    
 
 
 class TestCenario7(TestCase):
@@ -128,7 +189,7 @@ class TestCenario7(TestCase):
         self.client = Client()
         self.excluir_url = "excluir/caderno/" + str(self.caderno.pk)
 
-    def testeSucess(self):
+    def testeCria_ok(self):
         try :
             response = self.client.post(self.excluir_url,{"nome" : "cena7" , "descricao" : "teste123"})
             query = Caderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs")
@@ -136,7 +197,7 @@ class TestCenario7(TestCase):
             return False
         self.assertEquals(query.nome,"teste123")
 
-    def testeSucess1(self):
+    def testeExclui(self):
         try :
             response = self.client.post(self.excluir_url,{"nome" : "cena7" , "descricao" : "teste123"})
             query = Caderno.objects.get(nome = "cena7", descricao = "teste123")
@@ -149,7 +210,7 @@ class TestCenario8(TestCase):
         self.client = Client()
         self.consultar_url = "/cadernos/"
 
-    def testeSucess(self):
+    def testeBusca(self):
         try :
             response = self.client.post(self.consultar_url,{"nome" : "teste123" , "descricao" : "fsdfhsfhs"})
             query = Caderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs")
@@ -157,7 +218,7 @@ class TestCenario8(TestCase):
             return False
         self.assertEquals(query.nome,"teste123")
 
-    def testeSucess1(self):
+    def testeBusca_Fail(self):
         try :
             response = self.client.post(self.consultar_url,{"nome" : "teste123" , "descricao" : "fsdfhsfhs"})
             query = Caderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs")
