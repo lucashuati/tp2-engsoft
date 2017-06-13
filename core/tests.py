@@ -80,13 +80,81 @@ class TestCenario1(TestCase):
         except:
             return True
         return False
-    def TesteNomeExcede_descriOk_CadernoOk
+    def TesteNomeExcede_descriOk_CadernoOk(self):
         try:
-            response = self.client.post(self.criar_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "", "cadernos": "[1,2]"})
+            response = self.client.post(self.criar_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "teste", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="teste", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+
+    def TesteNomeExcede_descriNULL_CadernoOk(self):
+        try:
+            response = self.client.post(self.criar_url,
+                                        {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "", "cadernos": "[1,2]"})
             query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="", cadernos=["1", "2"])
         except:
             return True
         return False
+
+    def TesteNomeExcede_descriOk_CadernoNULL(self):
+        try:
+            response = self.client.post(self.criar_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "teste", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="teste", cadernos=[])
+        except:
+            return True
+        return False
+
+    def TesteNomeExcede_descriExcede_CadernoOk(self):
+        try:
+            response = self.client.post(self.criar_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "tttttttttttttttttttttttttttttttttttttttt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="tttttttttttttttttttttttttttttttttttttttt", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+
+    def TesteNomeExcede_descriExcede_CadernoNul(self):
+        try:
+            response = self.client.post(self.criar_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "tttttttttttttttttttttttttttttttttttttttt", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="tttttttttttttttttttttttttttttttttttttttt", cadernos=[])
+        except:
+            return True
+        return False
+
+    def TesteNomeOk_descriExcede_CadernoOk(self):
+        try:
+            response = self.client.post(self.criar_url, {"nome": "kk", "descricao": "tttttttttttttttttttttttttttttttttttttttt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="kk", descricao="tttttttttttttttttttttttttttttttttttttttt", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+
+    def TesteNomeOk_descriOk_CadernoNUll(self):
+        try:
+            response = self.client.post(self.criar_url, {"nome": "kkk", "descricao": "tttttttttttttttttttttttttttttttttttttttt", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkk", descricao="", cadernos=[])
+        except:
+            return True
+        return False
+
+
+    def TesteNomeNull_descriExcede_CadernoOk(self):
+        try:
+            response = self.client.post(self.criar_url,{"nome": "", "descricao": "tttttttttttttttttttttttttttttttttttttttt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="", descricao="tttttttttttttttttttttttttttttttttttttttt",cadernos=["1", "2"])
+        except:
+            return True
+        return False
+
+
+    def TesteNomeNULL_descriOk_CadernoNUll(self):
+        try:
+            response = self.client.post(self.criar_url,{"nome": "", "descricao": "tttttttttttttttttttttttttttttttttttttttt","cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="", descricao="tttttttttttttttttttttttttttttttttttttttt", cadernos=[])
+        except:
+            return True
+        return False
+
 
 class TestCenario2(TestCase):
     def setUp(self):
@@ -163,11 +231,76 @@ class TestCenario2(TestCase):
         return False
     def TesteNomeExcede_descriOk_CadernoOk(self):
         try:
+            response = self.client.post(self.edit_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "tt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="tt", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+
+    def TesteNomeExcede_descriNUll_CadernoOk(self):
+        try:
             response = self.client.post(self.edit_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "", "cadernos": "[1,2]"})
             query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="", cadernos=["1", "2"])
         except:
             return True
         return False
+    def TesteNomeExcede_descriOk_CadernoNULL(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "tt", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="tt", cadernos=[])
+        except:
+            return True
+        return False
+    def TesteNomeExcede_descriNull_CadernoNull(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="", cadernos=[])
+        except:
+            return True
+        return False
+    def TesteNomeExcede_descriExcede_CadernoOk(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "ttttttttttttttttttttttttttttttttttttttttttttt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="ttttttttttttttttttttttttttttttttttttttttttttt", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+    def TesteNomeExcede_descriExcede_CadernoNull(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "kkkkkkkkkkkkkkkkkkkkkkkkkkkk", "descricao": "ttttttttttttttttttttttttttttttttttttttttttttt", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkkkkkkkkkkkkkkkkkkkkkkkkkkk", descricao="ttttttttttttttttttttttttttttttttttttttttttttt", cadernos=[])
+        except:
+            return True
+        return False
+    def TesteNomeOk_descriExcede_CadernoOk(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "kk", "descricao": "ttttttttttttttttttttttttttttttttttttttttttttt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="kk", descricao="ttttttttttttttttttttttttttttttttttttttttttttt", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+    def TesteNomeOK_descriExcede_CadernoNull(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "kkk", "descricao": "ttttttttttttttttttttttttttttttttttttttttttttt", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="kkk", descricao="ttttttttttttttttttttttttttttttttttttttttttttt", cadernos=[])
+        except:
+            return True
+        return False
+    def TesteNomeNull_descriExcede_CadernoOk(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "", "descricao": "ttttttttttttttttttttttttttttttttttttttttttttt", "cadernos": "[1,2]"})
+            query = ListaCaderno.objects.get(nome="", descricao="ttttttttttttttttttttttttttttttttttttttttttttt", cadernos=["1", "2"])
+        except:
+            return True
+        return False
+    def TesteNomeNull_descriExcesso_CadernoNUll(self):
+        try:
+            response = self.client.post(self.edit_url, {"nome": "", "descricao": "ttttttttttttttttttttttttttttttttttttttttttttt", "cadernos": "[]"})
+            query = ListaCaderno.objects.get(nome="", descricao="ttttttttttttttttttttttttttttttttttttttttttttt", cadernos=[])
+        except:
+            return True
+        return False
+
 
 class TesteCenario3(TestCase):
     def setUp(self):
