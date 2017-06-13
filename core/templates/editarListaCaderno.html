@@ -6,12 +6,12 @@
     <script>
         $(document).ready(function () {
             $("select").select2({
-                'placeholder': 'Escolha o caderno para editar'
+                'placeholder': 'Escolha a lista de cadernos para editar'
             })
                 .on("select2:select", function (e) {
                     var selected_element = $(e.currentTarget);
                     var select_val = selected_element.val();
-                    $('#ex').attr('href','/editar/caderno/' + select_val);
+                    $('#ex').attr('href','/editar/listaCaderno/' + select_val);
                 });
 
         });

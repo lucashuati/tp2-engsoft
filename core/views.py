@@ -129,3 +129,60 @@ class mostrar_caderno(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
+class criarListaCaderno(CreateView):
+    model = ListaCaderno
+    form_class = ListaCadernoForm
+    print("dsadsadsa")
+    template_name = 'criar_lista_caderno.html'
+    template_name_suffix = '_create_form'
+    context = {
+         "cadernos" : ListaCaderno.objects.all(),
+    }
+
+    def get_success_url(self):
+        messages.success(self.request, "Lista de Cadernos Criados")
+        return reverse('index')
+
+
+def lista_lista_cadernos(request):
+    listaListaDeCadernos = ListaCaderno.objects.all()
+    return render(request, 'listaListaDeCadernos.html', {'listaListaDeCadernos': listaListaDeCadernos})
+
+def editar_lista_cadernos(request):
+    listaListaDeCadernos = ListaCaderno.objects.all()
+
+    return render(request, 'editarListaCadernos.html', {'listaListaDeCadernos': listaListaDeCadernos})
+
+def excluir_lista_cadernos(request):
+    listaListaDeCadernos = ListaCaderno.objects.filter()
+
+    return render(request, 'excluirListaCaderno.html', {'listaListaDeCadernos': listaListaDeCadernos})
+
+
+class deletar_lista_caderno(DeleteView):
+    model = ListaCaderno
+    form_class = ListaCadernoForm
+    template_name = 'deletarListaCaderno.html'
+    template_name_suffix = '_delete_form'
+
+    def get_success_url(self):
+        messages.success(self.request, "Lista de Cadernos Deletada")
+        return reverse('index')
+
+class editar_lista_caderno(UpdateView):
+    model = ListaCaderno
+    form_class = ListaCadernoFormEdit
+    template_name = 'editarListaCaderno.html'
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        messages.success(self.request, "A Lista de Cadernos foi editada")
+        return reverse('index')
+
+class mostrar_lista_caderno(DetailView):
+    model = ListaCaderno
+    template_name = 'mostrarListaCaderno.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

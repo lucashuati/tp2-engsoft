@@ -64,3 +64,28 @@ class CadernoFormEdit(ModelForm):
     def clean(self):
         return self.cleaned_data
 
+class ListaCadernoForm(ModelForm):
+    class Meta:
+        model = ListaCaderno
+        fields = ['nome', 'descricao']
+
+    def clean(self):
+        if Caderno.objects.filter(nome=self.cleaned_data['nome']).exists():
+            raise forms.ValidationError('Lista de caderno ja existe')
+        else:
+            return self.cleaned_data
+
+class ListaCadernoFormEdit(ModelForm):
+
+    class Meta:
+        model = ListaCaderno
+        fields = ['nome', 'descricao']
+
+    def clean(self):
+        return self.cleaned_data
+
+class CardernoBuscaForm(ModelForm):
+    nome = models.CharField(max_length=100)
+    class Meta:
+        fields = ['nome']
+

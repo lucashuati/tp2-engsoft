@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block headerextra %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script>
+        $(document).ready(function () {
+            $("select").select2({
+                'placeholder': 'Escolha a lista de cadernos a deletar'
+            })
+                .on("select2:select", function (e) {
+                    var selected_element = $(e.currentTarget);
+                    var select_val = selected_element.val();
+                    $('#ex').attr('href','/excluir/listaCaderno/' + select_val);
+                });
+
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+    <div class="w3-row" style="padding-top: 30px">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal">Deletar Lista de Cadernos</h1>
+            <label id="excluir" for="excluirListaCaderno">
+                Escolha uma lista de caderno para deletar
+                <br>
+                <select required style="width: 100%;" class="js-example-basic-single js-states form-control"
+                        id="excluirListaCaderno">
+                    <option></option>
+                    {% for listaCaderno in listaListaDeCadernos %}
+                        <option value="{{ listaCaderno.pk }}">{{ listaCaderno.nome }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <a id="ex" href="">Excluir</a>
+        </div>
+    </div>
+
+{% endblock %}

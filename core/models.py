@@ -18,7 +18,6 @@ class Usuario(models.Model):
         if self.tipo == 'ED':
             return Editor.objects.get(pk=self.pk)
 
-
 class RH(models.Model):
     user = models.OneToOneField(Usuario, on_delete=models.CASCADE, blank=True, null=True)
 
