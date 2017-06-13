@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+                <script>
+                    $(document).ready(function () {
+                        $("select").select2({
+                            'placeholder': 'Escolha o caderno para editar'
+                        })
+                            .on("select2:select", function (e) {
+                                var selected_element = $(e.currentTarget);
+                                var select_val = selected_element.val();
+                                $('#ex').attr('href','/editar/caderno/' + select_val);
+                            });
+
+                    });
+                </script>
+
+    <div class="w3-row" style="padding: 30px">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal">Criar Lista de Cadernos</h1>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    {{ form }}
+                </table>
+                <label id="editar" for="excluircaderno">
+                Escolha um caderno
+                <br>
+                <select required style="width: 100%;" class="js-example-basic-single js-states form-control"
+                        id="editarcaderno">
+                    <option></option>
+                    {% for caderno in cadernos %}
+                        <option value="{{ caderno.pk }}">{{ caderno.nome }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <a id="ex" href="">Adicionar</a>
+            
+            <p></p>
+                <input type="submit" value="Criar">
+            </form>
+            
+        </div>
+    </div>
+
+
+
+{% endblock %}

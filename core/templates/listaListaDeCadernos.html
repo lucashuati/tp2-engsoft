@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+    <div class="w3-row" style="padding-top: 30px">
+        <div class="w3-twothird w3-container">
+            <h1 class="w3-text-teal">Lista de Cadernos</h1>
+            <div style="float: right">
+                <a href="{% url 'criarListaCaderno' %}">Criar</a>
+                <a href="{% url 'editarListaCadernos' %}">Editar</a>
+                <a href="{% url 'excluirListaCadernos' %}">Deletar</a>
+            </div>
+
+            {% for listaCaderno in listaListaDeCadernos %}
+                <ul>
+                    <li><a href="{% url  'mostrarListaCaderno' listaCaderno.pk %}">{{ listaCaderno.nome }}</a></li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

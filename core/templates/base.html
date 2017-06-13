@@ -40,7 +40,7 @@
     {% if user.is_authenticated %}
         <h5 class="w3-bar-item"><b>Bem Vindo, {{ papel }} {{ user.first_name }}</b></h5>
         <a class="w3-bar-item w3-button w3-hover-black" href="{% url 'cadernos' %}">Cadernos</a>
-        <a class="w3-bar-item w3-button w3-hover-black" href="#">Lista de Cadernos</a>
+        <a class="w3-bar-item w3-button w3-hover-black" href="{% url 'listaCadernos' %}">Lista de Cadernos</a>
         <a class="w3-bar-item w3-button w3-hover-black" href="{% url 'logout' %}">Logout</a>
     {% else %}
         <h5 class="w3-bar-item">Bem Vindo, realize seu login para utilizar o sistema</h5>
