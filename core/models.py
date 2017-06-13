@@ -33,19 +33,20 @@ class Fotografo(models.Model):
 class Editor(models.Model):
     user = models.OneToOneField(Usuario, on_delete=models.CASCADE, blank=True, null=True)
 
+class Caderno(models.Model):
+    nome = models.CharField(max_length=15)
+    descricao = models.TextField(max_length=30)
+
+    def get_absolute_url(self):
+        return reverse('mostrarcaderno', args=[str(self.id)])
+
+    def __str__(self):
+        return self.nome
 
 class ListaCaderno(models.Model):
     nome = models.CharField(max_length=25)
     descricao = models.TextField()
-
-
-class Caderno(models.Model):
-    nome = models.CharField(max_length=15)
-    descricao = models.TextField(max_length=30)
-    lista = models.ForeignKey(ListaCaderno, on_delete=models.CASCADE, blank=True, null=True)
-
-    def get_absolute_url(self):
-        return reverse('mostrarcaderno', args=[str(self.id)])
+    cadernos = models.ManyToManyField(Caderno)
 
 
 class Materia(models.Model):

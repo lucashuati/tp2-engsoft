@@ -6,4 +6,11 @@
 
     <h2 style="padding-left: 30px; padding-top: 30px">Descriçao</h2>
     <p style="padding-left: 30px">{{ object.descricao }}</p>
+
+    <h2 style="padding-left: 30px; padding-top: 30px">Cadernos</h2>
+    
+    {% for caderno in object.cadernos.all %}
+
+    <p style="padding-left: 30px">{{ caderno }}</p>
+    {% endfor %}
 {% endblock %}

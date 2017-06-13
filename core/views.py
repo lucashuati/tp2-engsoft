@@ -129,19 +129,21 @@ class mostrar_caderno(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-class criarListaCaderno(CreateView):
-    model = ListaCaderno
-    form_class = ListaCadernoForm
-    print("dsadsadsa")
-    template_name = 'criar_lista_caderno.html'
-    template_name_suffix = '_create_form'
+def criarListaCaderno(request):
+    cadernos=Caderno.objects.all()
+    form = ListaCadernoForm(request.POST or None,cadernos=cadernos)
     context = {
-        "cadernos":ListaCaderno.objects.all()
-    }
+        "form": form,
+    }  
 
-    def get_success_url(self):
-        messages.success(self.request, "Lista de Cadernos Criados")
-        return reverse('index')
+
+    if request.user.is_authenticated():
+        if form.is_valid():
+            form.save(commit=True)
+            messages.success(request, "A lista de Cadernos foi adicionado")
+            return render(request, 'index.html') 
+    return render(request, 'criar_lista_caderno.html', context)
+
 
 
 def lista_lista_cadernos(request):
@@ -169,20 +171,30 @@ class deletar_lista_caderno(DeleteView):
         messages.success(self.request, "Lista de Cadernos Deletada")
         return reverse('index')
 
-class editar_lista_caderno(UpdateView):
-    model = ListaCaderno
-    form_class = ListaCadernoFormEdit
-    template_name = 'editarListaCaderno.html'
-    template_name_suffix = '_update_form'
+def editar_lista_caderno(request,pk):
+    cadernos=Caderno.objects.all()
+    listaCaderno=ListaCaderno.objects.get(id=pk)
 
-    def get_success_url(self):
-        messages.success(self.request, "A Lista de Cadernos foi editada")
-        return reverse('index')
+    form = ListaCadernoForm(request.POST or None,cadernos=cadernos)
+    form.fields['nome'].initial=listaCaderno.nome
+    form.fields['descricao'].initial=listaCaderno.descricao
+
+    context = {
+        "form": form,
+    }  
+    if request.user.is_authenticated():
+        if form.is_valid():
+            ListaCaderno.objects.filter(pk=pk).delete()
+            form.save(commit=True)
+            messages.success(request, "A lista de Cadernos foi alterada.")
+            return render(request, 'index.html') 
+    return render(request, 'editarListaCaderno.html', context)
+
 
 class mostrar_lista_caderno(DetailView):
     model = ListaCaderno
     template_name = 'mostrarListaCaderno.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self,  **kwargs):
         context = super().get_context_data(**kwargs)
         return context

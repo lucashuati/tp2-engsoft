@@ -65,9 +65,11 @@ class CadernoFormEdit(ModelForm):
         return self.cleaned_data
 
 class ListaCadernoForm(ModelForm):
+    nome = forms.CharField(label = "Nome", min_length="3")
+    descricao = forms.CharField(label = "Descrição")
     class Meta:
         model = ListaCaderno
-        fields = ['nome', 'descricao']
+        fields = ['nome', 'descricao','cadernos']
 
     def clean(self):
         if Caderno.objects.filter(nome=self.cleaned_data['nome']).exists():
@@ -75,15 +77,14 @@ class ListaCadernoForm(ModelForm):
         else:
             return self.cleaned_data
 
-class ListaCadernoFormEdit(ModelForm):
 
-    class Meta:
-        model = ListaCaderno
-        fields = ['nome', 'descricao']
-
-    def clean(self):
-        return self.cleaned_data
-
+    def __init__(self,*args,**kargs):
+        cadernos=kargs.pop('cadernos')
+        super(ListaCadernoForm,self).__init__(*args,**kargs)
+        if cadernos:
+            self.fields['cadernos']=forms.ModelMultipleChoiceField(
+                queryset=cadernos,label="Escolha os cadernos")
+            
 class CardernoBuscaForm(ModelForm):
     nome = models.CharField(max_length=100)
     class Meta:
