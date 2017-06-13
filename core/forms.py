@@ -65,8 +65,8 @@ class CadernoFormEdit(ModelForm):
         return self.cleaned_data
 
 class ListaCadernoForm(ModelForm):
-    nome = forms.CharField(label = "Nome", min_length="3")
-    descricao = forms.CharField(label = "Descrição")
+    nome = forms.CharField(label = "Nome", min_length="3", widget=forms.TextInput(attrs={'placeholder': 'Coloque aqui o nome da lista'}))
+    descricao = forms.CharField(label = "Descrição", widget=forms.TextInput(attrs={'placeholder': 'Coloque aqui a descrição da lista'}))
     class Meta:
         model = ListaCaderno
         fields = ['nome', 'descricao','cadernos']

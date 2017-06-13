@@ -28,16 +28,7 @@ def index(request):
                 messages.success(request, "Login realizado com sucesso")
                 login(request, user)
 
-    if not request.user.is_anonymous():
-        user = Usuario.objects.get(django_user=request.user)
-        if user.tipo_usuario == 'ED':
-            papel = 'Editor'
-        if user.tipo_usuario == 'RH':
-            papel = 'RH'
-        if user.tipo_usuario == 'FO':
-            papel = 'Fotografo'
-        if user.tipo_usuario == 'JO':
-            papel = 'Jornalista'
+    papel = user_type(request)
 
     return render(request, 'index.html', {'form': form, 'papel': papel})
 
@@ -86,20 +77,28 @@ class criarCaderno(CreateView):
 
 
 def lista_cadernos(request):
-    cadernos = Caderno.objects.all()
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        cadernos = Caderno.objects.all()
 
-    return render(request, 'listacadernos.html', {'cadernos': cadernos})
+        return render(request, 'listacadernos.html', {'cadernos': cadernos})
+    return is_editor
 
 def editar_cadernos(request):
-    cadernos = Caderno.objects.all()
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        cadernos = Caderno.objects.all()
 
-    return render(request, 'editarcadernos.html', {'cadernos': cadernos})
+        return render(request, 'editarcadernos.html', {'cadernos': cadernos})
+    return is_editor
 
 def excluir_cadernos(request):
-    cadernos = Caderno.objects.filter(materia__caderno=None)
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        cadernos = Caderno.objects.filter(materia__caderno=None)
 
-    return render(request, 'excluircaderno.html', {'cadernos': cadernos})
-
+        return render(request, 'excluircaderno.html', {'cadernos': cadernos})
+    return is_editor
 
 class deletar_caderno(DeleteView):
     model = Caderno
@@ -130,36 +129,46 @@ class mostrar_caderno(DetailView):
         return context
 
 def criarListaCaderno(request):
-    cadernos=Caderno.objects.all()
-    form = ListaCadernoForm(request.POST or None,cadernos=cadernos)
-    context = {
-        "form": form,
-    }  
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        cadernos=Caderno.objects.all()
+        form = ListaCadernoForm(request.POST or None,cadernos=cadernos)
+        context = {
+            "form": form,
+        }
 
 
-    if request.user.is_authenticated():
-        if form.is_valid():
-            form.save(commit=True)
-            messages.success(request, "A lista de Cadernos foi adicionado")
-            return render(request, 'index.html') 
-    return render(request, 'criar_lista_caderno.html', context)
-
+        if request.user.is_authenticated():
+            if form.is_valid():
+                form.save(commit=True)
+                messages.success(request, "A lista de Cadernos foi adicionada")
+                return render(request, 'index.html')
+        return render(request, 'criar_lista_caderno.html', context)
+    return is_editor
 
 
 def lista_lista_cadernos(request):
-    listaListaDeCadernos = ListaCaderno.objects.all()
-    return render(request, 'listaListaDeCadernos.html', {'listaListaDeCadernos': listaListaDeCadernos})
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        listaListaDeCadernos = ListaCaderno.objects.all()
+        return render(request, 'listaListaDeCadernos.html', {'listaListaDeCadernos': listaListaDeCadernos})
+    return is_editor
 
 def editar_lista_cadernos(request):
-    listaListaDeCadernos = ListaCaderno.objects.all()
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        listaListaDeCadernos = ListaCaderno.objects.all()
 
-    return render(request, 'editarListaCadernos.html', {'listaListaDeCadernos': listaListaDeCadernos})
+        return render(request, 'editarListaCadernos.html', {'listaListaDeCadernos': listaListaDeCadernos})
+    return is_editor
 
 def excluir_lista_cadernos(request):
-    listaListaDeCadernos = ListaCaderno.objects.filter()
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        listaListaDeCadernos = ListaCaderno.objects.filter()
 
-    return render(request, 'excluirListaCaderno.html', {'listaListaDeCadernos': listaListaDeCadernos})
-
+        return render(request, 'excluirListaCaderno.html', {'listaListaDeCadernos': listaListaDeCadernos})
+    return is_editor
 
 class deletar_lista_caderno(DeleteView):
     model = ListaCaderno
@@ -172,24 +181,26 @@ class deletar_lista_caderno(DeleteView):
         return reverse('index')
 
 def editar_lista_caderno(request,pk):
-    cadernos=Caderno.objects.all()
-    listaCaderno=ListaCaderno.objects.get(id=pk)
+    is_editor = _is_editor(request)
+    if is_editor is True:
+        cadernos=Caderno.objects.all()
+        listaCaderno=ListaCaderno.objects.get(id=pk)
 
-    form = ListaCadernoForm(request.POST or None,cadernos=cadernos)
-    form.fields['nome'].initial=listaCaderno.nome
-    form.fields['descricao'].initial=listaCaderno.descricao
+        form = ListaCadernoForm(request.POST or None,cadernos=cadernos)
+        form.fields['nome'].initial=listaCaderno.nome
+        form.fields['descricao'].initial=listaCaderno.descricao
 
-    context = {
-        "form": form,
-    }  
-    if request.user.is_authenticated():
-        if form.is_valid():
-            ListaCaderno.objects.filter(pk=pk).delete()
-            form.save(commit=True)
-            messages.success(request, "A lista de Cadernos foi alterada.")
-            return render(request, 'index.html') 
-    return render(request, 'editarListaCaderno.html', context)
-
+        context = {
+            "form": form,
+        }
+        if request.user.is_authenticated():
+            if form.is_valid():
+                ListaCaderno.objects.filter(pk=pk).delete()
+                form.save(commit=True)
+                messages.success(request, "A lista de Cadernos foi alterada.")
+                return render(request, 'index.html')
+        return render(request, 'editarListaCaderno.html', context)
+    return is_editor
 
 class mostrar_lista_caderno(DetailView):
     model = ListaCaderno
@@ -198,3 +209,27 @@ class mostrar_lista_caderno(DetailView):
     def get_context_data(self,  **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+def _is_editor(request):
+    papel = ""
+    if request.user.is_authenticated():
+        papel = user_type(request)
+        if papel == 'Editor':
+            return True
+    messages.warning(request,'Somente o editor permissão para acessar esta funcionalidade')
+    form = Login()
+    return render(request, 'index.html', {'form': form, 'papel': papel})
+
+def user_type(request):
+    if not request.user.is_anonymous():
+        user = Usuario.objects.get(django_user=request.user)
+        if user.tipo_usuario == 'ED':
+            return 'Editor'
+        if user.tipo_usuario == 'RH':
+            return 'RH'
+        if user.tipo_usuario == 'FO':
+            return 'Fotografo'
+        if user.tipo_usuario == 'JO':
+            return 'Jornalista'
+    return ""
