@@ -14,8 +14,8 @@ class TestCenario1(TestCase):
 
     def testeCriaNorma(self):
         try :
-        response = self.client.post(self.criar_url,{"nome" : "testeSim" , "descricao" : "lala", "cadernos" : "[1,2]"} )
-        query = ListaCaderno.objects.get(nome = "testesim", descricao = "lala", cadernos = ["1", "2"])
+            response = self.client.post(self.criar_url,{"nome" : "testeSim" , "descricao" : "lala", "cadernos" : "[1,2]"} )
+            query = ListaCaderno.objects.get(nome = "testesim", descricao = "lala", cadernos = ["1", "2"])
         except :
             return False
         self.assertEquals(query.nome, "testeSim")
@@ -304,14 +304,14 @@ class TestCenario2(TestCase):
 
 class TesteCenario3(TestCase):
     def setUp(self):
-        self.lista = Caderno.objects.create(nome = "cena7", descricao = "teste123", , cadernos=["1", "2"])
+        self.lista = ListaCaderno.objects.create(nome = "cena7", descricao = "teste123")
         self.client = Client()
-        self.excluir_url = "excluir/listaCaderno/" + str(self.caderno.pk)
+        self.excluir_url = "excluir/listaCaderno/" + str(self.lista.pk)
 
     def testeCria_ok(self):
         try :
             response = self.client.post(self.excluir_url,{"nome" : "cena7" , "descricao" : "teste123", "cadernos" : "[1,2]"})
-            query = ListaCaderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs", , cadernos=["1", "2"])
+            query = ListaCaderno.objects.get(nome = "teste123", descricao = "fsdfhsfhs", cadernos=["1", "2"])
         except :
             return False
         self.assertEquals(query.nome,"teste123")
@@ -415,7 +415,7 @@ class TestCenario5(TestCase):
         try :
             response = self.client.post(self.criar_url,{"nome" : "12345678901234561" , "descricao" : ""})
             query = Caderno.objects.get(nome = "12345678901234561", descricao = "")
-        except : 
+        except :
             return True
         return False
 
@@ -423,7 +423,7 @@ class TestCenario5(TestCase):
         try :
             response = self.client.post(self.criar_url,{"nome" : "12345678901234561" , "descricao" : "123456"})
             query = Caderno.objects.get(nome = "12345678901234561", descricao = "123456")
-        except : 
+        except :
             return True
         return False
 
@@ -431,7 +431,7 @@ class TestCenario5(TestCase):
         try :
             response = self.client.post(self.criar_url,{"nome" : "12345678901234561789797979" , "descricao" : "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd"})
             query = Caderno.objects.get(nome = "12345678901234561789797979", descricao = "fsdfhsfhssdvbsdvsdsdvsdsfffffffffffffffffffffffffffffffffffffffffffffdvvsd")
-        except : 
+        except :
             return True
         return False
 
@@ -522,7 +522,7 @@ class TestCenario6(TestCase):
             return False
         return False
 
-    
+
 
 
 class TestCenario7(TestCase):
